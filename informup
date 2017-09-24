@@ -1,0 +1,20 @@
+#!/bin/bash
+# author: Hazmei Bin Abdul Rahman
+# Date: 24 September 2017
+
+USERID="" #insert destination userid
+KEY="" #insert bot key
+TIMEOUT="10"
+URL="https://api.telegram.org/bot$KEY/sendMessage"
+
+DATE_EXEC="$(date "+%d %b %Y %H:%M")"
+HOSTNAME=$(hostname -f)
+IP_CMD="$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}')"
+SSID_CMD="$(iwgetid -r)"
+
+TEXT="=== DEVICE ONLINE ($HOSTNAME) === %0D%0A"
+TEXT+="Date: $DATE_EXEC (SGT) %0D%0A"
+TEXT+="SSID: '$SSID_CMD' %0D%0A"
+TEXT+="IP: $IP_CMD"
+
+curl -s --max-time $TIMEOUT -d "chat_id=$USERID&disable_web_page_preview=1&text=$TEXT" $URL > /dev/null
